@@ -1,0 +1,12 @@
+<%- include("cabecera", { tituloWeb: 'Nuevo Pokémon' }) %>
+<div class="container">
+    <h2>Crear nuevo Pokémon</h2>
+    <form action="/pokemon" class="my-2" method="POST">
+        <input type="number" placeholder="Id" class="form-control my-2" name="id" required>
+        <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre" required>
+        <input type="text" placeholder="Tipo" class="form-control my-2" name="tipo" required>
+        <input type="text" placeholder="Descripción" class="form-control my-2" name="descripcion" required>
+        <button type="submit" class="btn btn-dark btn-block">Agregar</button>
+    </form>
+</div>
+<%- include("footer") %>

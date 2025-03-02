@@ -1,0 +1,12 @@
+<%- include("cabecera", { tituloWeb: 'Editar Pokémon' }) %>
+<div class="container">
+    <h2>Editar Pokémon</h2>
+    <form action="/pokemon/<%= pokemon._id %>?_method=PUT" class="my-2" method="POST">
+        <input type="number" class="form-control my-2" name="id" value="<%= pokemon.id %>" readonly>
+        <input type="text" class="form-control my-2" name="nombre" value="<%= pokemon.nombre %>" required>
+        <input type="text" class="form-control my-2" name="tipo" value="<%= pokemon.tipo %>" required>
+        <input type="text" class="form-control my-2" name="descripcion" value="<%= pokemon.descripcion %>" required>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+</div>
+<%- include("footer") %>
