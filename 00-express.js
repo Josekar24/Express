@@ -20,23 +20,19 @@ app.use(bodyParser.urlencoded({ extended: true })); // Procesar formularios
 app.use(bodyParser.json()); // Permitir recibir JSON en las peticiones
 app.use(methodOverride('_method')); // Permitir métodos PUT y DELETE en formularios
 
-// Conectar a MongoDB con mejor manejo de errores
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log('✅ Conectado a MongoDB'))
-.catch(err => {
-    console.error('❌ Error en la conexión a MongoDB:', err);
-    process.exit(1); // Salir del proceso si hay error en la conexión
-});
+// Configurar MongoDB con mejor manejo de errores
+const uri = process.env.MONGO_URI;
 
-// Importar rutas
+mongoose.connect(uri)
+    .then(() => console.log('✅ Conectado a MongoDB'))
+    .catch(err => console.error('❌ Error en la conexión a MongoDB:', err));
+
+// Importar rutas de manera segura
 try {
     const pokemonRoutes = require('./router/pokemon');
     app.use('/pokemon', pokemonRoutes);
 } catch (error) {
-    console.error('❌ Error al cargar las rutas de Pokémon:', error.message);
+    console.error('⚠️ Advertencia: No se pudo cargar las rutas de Pokémon:', error.message);
 }
 
 // Ruta principal

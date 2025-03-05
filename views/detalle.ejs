@@ -1,12 +1,84 @@
-<%- include("cabecera", { tituloWeb: 'Editar Pokémon' }) %>
+<%- include("template/cabecera", {tituloWeb: 'Detalles del Pokemon'}) %>
+
 <div class="container">
-    <h2>Editar Pokémon</h2>
-    <form action="/pokemon/<%= pokemon._id %>?_method=PUT" class="my-2" method="POST">
-        <input type="number" class="form-control my-2" name="id" value="<%= pokemon.id %>" readonly>
-        <input type="text" class="form-control my-2" name="nombre" value="<%= pokemon.nombre %>" required>
-        <input type="text" class="form-control my-2" name="tipo" value="<%= pokemon.tipo %>" required>
-        <input type="text" class="form-control my-2" name="descripcion" value="<%= pokemon.descripcion %>" required>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-    </form>
+    <h1>Detalles del Pokemon</h1>
+
+    <% if (error) { %>
+        <p><%= mensaje %></p>
+        <a href="/pokemon" class="btn btn-dark btn-block my-2">Volver</a>
+    <% } else { %>
+        <form id="editar" data-id="<%= pokemon._id %>">
+            <input type="number" value="<%= pokemon.id %>" class="form-control my-2" name="id" id="idInput">
+            <input type="text" value="<%= pokemon.nombre %>" class="form-control my-2" name="nombre" id="nombreInput">
+            <input type="text" value="<%= pokemon.tipo %>" class="form-control my-2" name="tipo" id="tipoInput">
+            <input type="text" value="<%= pokemon.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
+            <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
+        </form>
+        <button class="btn btn-danger btn-sm" id="eliminar" data-id="<%= pokemon._id %>">Eliminar</button>
+    <% } %>
 </div>
-<%- include("footer") %>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnEliminar = document.getElementById('eliminar');
+        if (btnEliminar) {
+            btnEliminar.addEventListener('click', async () => {
+                const id = btnEliminar.dataset.id;
+                console.log('Eliminando ID:', id);
+                try {
+                    const data = await fetch(`/pokemon/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const res = await data.json();
+                    console.log(res);
+                    if (res.estado) {
+                        window.location.href = '/pokemon';
+                    } else {
+                        alert(res.mensaje);
+                    }
+                } catch (error) {
+                    console.log('Error al eliminar:', error);
+                }
+            });
+        }
+
+        const formEditar = document.querySelector('#editar');
+        if (formEditar) {
+            formEditar.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const _id = formEditar.dataset.id;
+                const id = document.getElementById('idInput').value;
+                const nombre = document.getElementById('nombreInput').value;
+                const tipo = document.getElementById('tipoInput').value;
+                const descripcion = document.getElementById('descripcionInput').value;
+                
+                console.log('Editando ID:', _id);
+                
+                try {
+                    const data = await fetch(`/pokemon/${_id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id, nombre, tipo, descripcion })
+                    });
+
+                    const res = await data.json();
+                    console.log(res);
+                    if (res.estado) {
+                        window.location.href = '/pokemon';
+                    } else {
+                        alert(res.mensaje);
+                    }
+                } catch (error) {
+                    console.log('Error al actualizar:', error);
+                }
+            });
+        }
+    });
+</script>
+
+
+
+<%- include("template/footer") %>

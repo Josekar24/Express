@@ -1,33 +1,37 @@
-<%- include("cabecera", { tituloWeb: 'Lista de Pokémon' }) %>
+<%- include("template/cabecera", {tituloWeb: 'Panel de Administración'}) %>
+
 <div class="container">
-    <h2>Listado de Pokémon</h2>
-    <a href="/pokemon/crear" class="btn btn-primary my-2">Nuevo Pokémon</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% pokemones.forEach(pokemon => { %>
-                <tr>
-                    <td><%= pokemon.id %></td>
-                    <td><%= pokemon.nombre %></td>
-                    <td><%= pokemon.tipo %></td>
-                    <td><%= pokemon.descripcion %></td>
-                    <td>
-                        <a href="/pokemon/<%= pokemon._id %>" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="/pokemon/<%= pokemon._id %>?_method=DELETE" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
+  <h1>CRUD MongoDB</h1>
+  <a class="btn btn-success btn-block my-4" href="/pokemon/crear">Crear nuevo Pokémon</a>
+
+  <% if (arrayPokemon && arrayPokemon.length > 0) { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% arrayPokemon.forEach((pokemon, index) => { %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th> <!-- Enumeración automática -->
+            <td><%= pokemon.nombre %></td>
+            <td><%= pokemon.tipo %></td>            
+            <td><%= pokemon.descripcion %></td>
+            <td>
+              <a class="btn btn-warning btn-sm" href="/pokemon/<%= pokemon._id %>">Editar/Eliminar</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
     </table>
+  <% } else { %>
+    <p class="alert alert-warning text-center">No hay Pokémon registrados.</p>
+  <% } %>
 </div>
-<%- include("footer") %>
+
+<%- include("template/footer") %>

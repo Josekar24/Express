@@ -1,12 +1,31 @@
-<%- include("cabecera", { tituloWeb: 'Nuevo Pokémon' }) %>
+<%- include("template/cabecera", { tituloWeb: 'Nuevo Pokémon' }) %>
+
 <div class="container">
-    <h2>Crear nuevo Pokémon</h2>
+    <h2 class="text-center my-4">Crear Nuevo Pokémon</h2>
+    
     <form action="/pokemon" class="my-2" method="POST">
-        <input type="number" placeholder="Id" class="form-control my-2" name="id" required>
-        <input type="text" placeholder="Nombre" class="form-control my-2" name="nombre" required>
-        <input type="text" placeholder="Tipo" class="form-control my-2" name="tipo" required>
-        <input type="text" placeholder="Descripción" class="form-control my-2" name="descripcion" required>
-        <button type="submit" class="btn btn-dark btn-block">Agregar</button>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="number" id="id" placeholder="ID" class="form-control my-2" name="id" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" placeholder="Nombre" class="form-control my-2" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <input type="text" id="tipo" placeholder="Tipo" class="form-control my-2" name="tipo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" placeholder="Descripción" class="form-control my-2" name="descripcion" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-dark btn-block" aria-label="Agregar Pokémon">Agregar Pokémon</button>
     </form>
 </div>
-<%- include("footer") %>
+
+<%- include("template/footer") %>
