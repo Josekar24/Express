@@ -1,0 +1,42 @@
+<%- include("template/cabecera", {tituloWeb: 'Panel de Administración'}) %>
+
+<div class="container">
+  <h1>CRUD MongoDB</h1>
+  <a class="btn btn-success btn-block my-4" href="/motos/agregar">Crear nueva Moto</a>
+
+  <% if (motos && motos.length > 0) { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Modelo</th>
+          <th scope="col">Cilindrada</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% motos.forEach((moto, index) => { %>
+          <tr>
+            <th scope="row"><%= index + 1 %></th> <!-- Enumeración automática -->
+            <td><%= moto.marca %></td>
+            <td><%= moto.modelo %></td>
+            <td><%= moto.cilindrada %> cc</td>            
+            <td><%= moto.descripcion %></td>
+            <td>
+              <a class="btn btn-warning btn-sm" href="/motos/editar/<%= moto._id %>">Editar</a>
+              <form action="/motos/eliminar/<%= moto._id %>" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p class="alert alert-warning text-center">No hay motos registradas.</p>
+  <% } %>
+</div>
+
+<%- include("template/footer") %>

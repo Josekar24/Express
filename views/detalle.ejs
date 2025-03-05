@@ -1,84 +1,35 @@
-<%- include("template/cabecera", {tituloWeb: 'Detalles del Pokemon'}) %>
+<%- include("template/cabecera", { tituloWeb: moto.marca + ' ' + moto.modelo }) %>
 
-<div class="container">
-    <h1>Detalles del Pokemon</h1>
+<div class="container mt-5">
+    <h1 class="text-center"><%= moto.marca %> - <%= moto.modelo %></h1>
 
-    <% if (error) { %>
-        <p><%= mensaje %></p>
-        <a href="/pokemon" class="btn btn-dark btn-block my-2">Volver</a>
-    <% } else { %>
-        <form id="editar" data-id="<%= pokemon._id %>">
-            <input type="number" value="<%= pokemon.id %>" class="form-control my-2" name="id" id="idInput">
-            <input type="text" value="<%= pokemon.nombre %>" class="form-control my-2" name="nombre" id="nombreInput">
-            <input type="text" value="<%= pokemon.tipo %>" class="form-control my-2" name="tipo" id="tipoInput">
-            <input type="text" value="<%= pokemon.descripcion %>" class="form-control my-2" name="descripcion" id="descripcionInput">
-            <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>
-        </form>
-        <button class="btn btn-danger btn-sm" id="eliminar" data-id="<%= pokemon._id %>">Eliminar</button>
-    <% } %>
+    <div class="row">
+        <div class="col-md-6">
+            <% if (moto.imagen) { %>
+                <img src="<%= moto.imagen %>" class="img-fluid rounded shadow" alt="<%= moto.modelo %>">
+            <% } else { %>
+                <p class="text-muted text-center">Sin imagen disponible</p>
+            <% } %>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Detalles de la Moto</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Marca:</strong> <%= moto.marca %></li>
+                <li class="list-group-item"><strong>Modelo:</strong> <%= moto.modelo %></li>
+                <li class="list-group-item"><strong>Cilindrada:</strong> <%= moto.cilindrada %> cc</li>
+                <li class="list-group-item"><strong>Descripción:</strong> <%= moto.descripcion %></li>
+            </ul>
+
+            <div class="mt-4">
+                <a href="/motos" class="btn btn-secondary">Volver a la Lista</a>
+                <a href="/motos/editar/<%= moto._id %>" class="btn btn-warning">Editar</a>
+                <form action="/motos/<%= moto._id %>?_method=DELETE" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const btnEliminar = document.getElementById('eliminar');
-        if (btnEliminar) {
-            btnEliminar.addEventListener('click', async () => {
-                const id = btnEliminar.dataset.id;
-                console.log('Eliminando ID:', id);
-                try {
-                    const data = await fetch(`/pokemon/${id}`, {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                    const res = await data.json();
-                    console.log(res);
-                    if (res.estado) {
-                        window.location.href = '/pokemon';
-                    } else {
-                        alert(res.mensaje);
-                    }
-                } catch (error) {
-                    console.log('Error al eliminar:', error);
-                }
-            });
-        }
-
-        const formEditar = document.querySelector('#editar');
-        if (formEditar) {
-            formEditar.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const _id = formEditar.dataset.id;
-                const id = document.getElementById('idInput').value;
-                const nombre = document.getElementById('nombreInput').value;
-                const tipo = document.getElementById('tipoInput').value;
-                const descripcion = document.getElementById('descripcionInput').value;
-                
-                console.log('Editando ID:', _id);
-                
-                try {
-                    const data = await fetch(`/pokemon/${_id}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id, nombre, tipo, descripcion })
-                    });
-
-                    const res = await data.json();
-                    console.log(res);
-                    if (res.estado) {
-                        window.location.href = '/pokemon';
-                    } else {
-                        alert(res.mensaje);
-                    }
-                } catch (error) {
-                    console.log('Error al actualizar:', error);
-                }
-            });
-        }
-    });
-</script>
-
-
 
 <%- include("template/footer") %>

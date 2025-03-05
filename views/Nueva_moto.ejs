@@ -1,0 +1,25 @@
+<%- include("template/cabecera") %>
+
+<div class="container">
+    <h1>Agregar Nueva Moto</h1>
+    <form action="/motos" method="POST">
+        <label for="marca">Marca:</label>
+        <input type="text" name="marca" required>
+
+        <label for="modelo">Modelo:</label>
+        <input type="text" name="modelo" required>
+
+        <label for="cilindrada">Cilindrada (cc):</label>
+        <input type="number" name="cilindrada" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea name="descripcion" required></textarea>
+
+        <label for="imagen">URL de la Imagen:</label>
+        <input type="text" name="imagen">
+
+        <button type="submit">Agregar Moto</button>
+    </form>
+</div>
+
+<%- include("template/footer") %>

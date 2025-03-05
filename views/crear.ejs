@@ -1,9 +1,9 @@
-<%- include("template/cabecera", { tituloWeb: 'Nuevo Pokémon' }) %>
+<%- include("template/cabecera", { tituloWeb: 'Nueva Moto' }) %>
 
 <div class="container">
     <h2 class="text-center my-4">Crear Nuevo Pokémon</h2>
     
-    <form action="/pokemon" class="my-2" method="POST">
+    <form action="/Motos" class="my-2" method="POST">
         <div class="form-group">
             <label for="id">ID</label>
             <input type="number" id="id" placeholder="ID" class="form-control my-2" name="id" required>
@@ -24,7 +24,7 @@
             <textarea id="descripcion" placeholder="Descripción" class="form-control my-2" name="descripcion" rows="3" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-dark btn-block" aria-label="Agregar Pokémon">Agregar Pokémon</button>
+        <button type="submit" class="btn btn-dark btn-block" aria-label="Agregar Motos">Agregar Motos</button>
     </form>
 </div>
 
